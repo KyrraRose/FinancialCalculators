@@ -45,15 +45,17 @@ public class FinancialCalculators {
 
 
         }else if (option == 2){ //Option 2, CD future value calculation, variables notated with C
-
+            //Get deposit amount
             System.out.printf("You would like to calculate the future value of your CD? Sure thing, %s!\nWhat is your deposit amount?",name);
             double depositC = keyboard.nextDouble();
             keyboard.nextLine();//CRLF
 
+            //Get interest
             System.out.println("Okay! Now, what is the interest rate for this account?\nPlease enter the interest rate as a decimal.");
             double interestRateC = keyboard.nextDouble();
             keyboard.nextLine();//CRLF
 
+            //Get account length
             System.out.println("How many years did you want the account open for?");
             double timeOpenC = keyboard.nextDouble();
             keyboard.nextLine();//CRLF
@@ -67,8 +69,34 @@ public class FinancialCalculators {
             System.out.printf("Good news, %s! The future value of your CD will be: $%.2f\nThe total interest you will have accrued is: $%.2f",name,futureValueC,totalInterestC);
 
 
-        }else if (option == 3){
+        }else if (option == 3){ //present value of Annuity, variables noted with A
 
+            //Get monthly payment
+            System.out.printf("You would like to calculate how much to invest in an annuity account? Sure, %s.\nWhat is the monthly payment you would like in the future?",name);
+            double monthlyPaymentA = keyboard.nextDouble();
+            keyboard.nextLine();//CRLF
+
+            //Get interest rate
+            System.out.println("What is the expected interest rate for the account? Please use decimals.");
+            double interestRateA = keyboard.nextDouble();
+            keyboard.nextLine();//CRLF
+
+            //Get payment period length
+            System.out.println("How many years would you need payments to be made for?");
+            double paymentPeriodA = keyboard.nextDouble();
+            keyboard.nextLine();//CRLF
+
+            //Please hold!
+            thankYou(name);
+            double annuityPresentA = calculateAnnuity(monthlyPaymentA,interestRateA,paymentPeriodA);
+
+            //Results!
+            System.out.printf("To have monthly payments of $%.2f over %.0f months, your annuity account will need: $%.2f",monthlyPaymentA,paymentPeriodA,annuityPresentA);
+
+
+
+        } else{
+            System.out.printf("The option you selected is not listed! Please try again %s.",name);
         }
 
 
@@ -87,6 +115,10 @@ public class FinancialCalculators {
     //CD use: FV = P × (1 + (r / 365) )^(365 × t)
     public static double calculateCDValue(double depositC,double interestRateC,double timeOpenC){
         return depositC*Math.pow((1+(interestRateC/365)),(365*timeOpenC));
+    }
+
+    public static double calculateAnnuity(double monthlyPaymentA, double interestRateA, double paymentPeriodA) {
+        return monthlyPaymentA * ((1 - Math.pow((1 + interestRateA), -paymentPeriodA)) / interestRateA);
     }
 
     public static void thankYou(String name){
